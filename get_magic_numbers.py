@@ -33,12 +33,12 @@ def get_magic_numbers_main(df, extended_col_info, sign_violation_theshold = 3,ga
 
         data_array = np.array(df.iloc[:, col]) # extract from the df the array
         # Determine what type of values are in the array
-        value_type = str(extended_col_info[col][0])
-        col_name = extended_col_info[col][1]
+        value_type = str(extended_col_info[col][1])
+        col_name = extended_col_info[col][0]
 
         # This process may be inaccurate on small datasets. For optimal statistical reliability, adjust the array_length parameter
         array_length = len(data_array)
-        if (value_type == "F") and (array_length > 0): 
+        if (value_type == "N") and (array_length > 0): 
 
             data_arr, magic_strings = string_values_process(data_array) # Process 1 
 
