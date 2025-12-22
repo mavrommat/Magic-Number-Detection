@@ -13,7 +13,7 @@ from string_magic_numbers import magic_strings_detection as string_values_proces
 from sign_violation_magic_numbers import sign_violation_magic_numbers as opposite_sign_process
 from distance_based_magic_numbers import delta_distributed_magic_numbers 
 from identical_magic_numbers import identical_column_magic_numbers as all_values_are_same
-from magic_dictionaries import magic_dictionary, add_to_master_dict, safe_concatenate
+from magic_dictionaries import magic_dictionary, add_to_master_dict, safe_concatenate, clean_magic_results  
 from density_plot import plot_data_density
 
 
@@ -62,4 +62,6 @@ def get_magic_numbers_main(df, extended_col_info, sign_violation_theshold = 3,ga
 
         master_dict = add_to_master_dict(master_dict, results_dict)
 
-    return master_dict
+        cleaned_dict = clean_magic_results(master_dict)
+
+    return master_dict, cleaned_dict

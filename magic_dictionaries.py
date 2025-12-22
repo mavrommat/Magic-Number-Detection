@@ -43,7 +43,24 @@ def safe_concatenate(nested_arrays):
     
     return np.concatenate(valid_arrays)
 
-             
+def clean_magic_results(master_dict):
+    cleaned_dict = {}
+    
+    for col_name, results in master_dict.items():
+        cleaned_results = {}
+        if results["all_magic_numbers"] != False:
+            magic_results = results["all_magic_numbers"]
 
+        else:
+            magic_strings_results = [val for val in results["magic_strings"] if val is not None and val != '']
+            delta_magic_numbers_results = [val for val in results["magic_distanced_numbers"] if val is not None]
+            sign_violation_results = [val for val in results["magic_sign_violation"] if val is not None]
 
-        
+            total_magic_numbers = np.concatenate([magic_strings_results , delta_magic_numbers_results, sign_violation_results]) 
+            unique_magic_numbers = np.unique(total_magic_numbers) if total_magic_numbers.size > 0 else np.array([])
+
+            magic_results = unique_magic_numbers.tolist()
+    
+        cleaned_dict[col_name] = magic_results
+
+    return cleaned_dict
