@@ -11,13 +11,13 @@ logging.basicConfig(level=logging.DEBUG)
 
 from string_magic_numbers import magic_strings_detection as string_values_process
 from sign_violation_magic_numbers import sign_violation_magic_numbers as opposite_sign_process
-from distance_based_magic_numbers import distance_based_magic_numbers as distance_based_parocess
+from distance_based_magic_numbers import delta_distributed_magic_numbers 
 from identical_magic_numbers import identical_column_magic_numbers as all_values_are_same
 from magic_dictionaries import magic_dictionary, add_to_master_dict, safe_concatenate
 from density_plot import plot_data_density
 
 
-def get_magic_numbers(df, extended_col_info, sign_violation_theshold = 3,gauss_threshold = 0.01,  overlap_threshold=5.0, plot_graphs = True):
+def get_magic_numbers_main(df, extended_col_info, sign_violation_theshold = 3,gauss_threshold = 0.01,  overlap_threshold=5.0, plot_graphs = True):
 
     rows, columns = df.shape
     master_dict = {}
@@ -33,9 +33,8 @@ def get_magic_numbers(df, extended_col_info, sign_violation_theshold = 3,gauss_t
 
         data_array = np.array(df.iloc[:, col]) # extract from the df the array
         # Determine what type of values are in the array
-        value_type_detailed = str(extended_col_info[col][3])
-        value_type = value_type_detailed[0]
-        col_name = str(extended_col_info[col][2])
+        value_type = str(extended_col_info[col][0])
+        col_name = extended_col_info[col][1]
 
         # This process may be inaccurate on small datasets. For optimal statistical reliability, adjust the array_length parameter
         array_length = len(data_array)
@@ -51,7 +50,7 @@ def get_magic_numbers(df, extended_col_info, sign_violation_theshold = 3,gauss_t
 
                 magic_sign_violation = opposite_sign_process(data_arr, sign_violation_theshold) # Process 2
 
-                magic_distanced_numbers_arrays = distance_based_parocess(data_arr, col_name, gauss_threshold,  overlap_threshold, plot_graphs) # Process 3
+                magic_distanced_numbers_arrays = delta_distributed_magic_numbers(data_arr, col_name, gauss_threshold,  overlap_threshold, plot_graphs) # Process 3
                 magic_distanced_numbers = safe_concatenate(magic_distanced_numbers_arrays)
 
                 plot_data_density(data_arr, col_name, plot_graphs)

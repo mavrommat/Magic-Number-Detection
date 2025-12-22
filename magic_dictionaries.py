@@ -1,13 +1,12 @@
-
 import pandas as pd
 import numpy as np
 
-def magic_dictionary(magic_strings, magic_opp_sign_numbers, magic_distanced_numbers, all_magic_numbers, col_name):
+def magic_dictionary(magic_strings, magic_sign_violation, magic_distanced_numbers, all_magic_numbers, col_name):
     
     return {
         'column_name': col_name,
         'magic_strings': magic_strings,
-        'magic_opp_sign_numbers': magic_opp_sign_numbers,
+        'magic_sign_violation': magic_sign_violation,
         'magic_distanced_numbers': magic_distanced_numbers,
         'all_magic_numbers': all_magic_numbers
     }
@@ -16,7 +15,7 @@ def add_to_master_dict(master_dict, results_dict):
     col_name = results_dict['column_name']
     master_dict[col_name] = {
         'magic_strings': results_dict['magic_strings'],
-        'magic_opp_sign_numbers': results_dict['magic_opp_sign_numbers'],
+        'magic_sign_violation': results_dict['magic_sign_violation'],
         'magic_distanced_numbers': results_dict['magic_distanced_numbers'],
         'all_magic_numbers': results_dict['all_magic_numbers']
     }
@@ -43,3 +42,8 @@ def safe_concatenate(nested_arrays):
         return np.array([])
     
     return np.concatenate(valid_arrays)
+
+             
+
+
+        
