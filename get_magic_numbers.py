@@ -46,7 +46,7 @@ def get_magic_numbers_main(df, extended_col_info, sign_violation_theshold = 3,ga
             all_magic_numbers = all_values_are_same(data_arr) # Process 4
             print(f"  All values identical: {all_magic_numbers}")
 
-            if all_magic_numbers is not None:
+            if all_magic_numbers is None:
                 magic_sign_violation = opposite_sign_process(data_arr, sign_violation_theshold) # Process 2
                 magic_distanced_numbers_arrays = delta_distributed_magic_numbers(data_arr, col_name, gauss_threshold,  overlap_threshold, plot_graphs) # Process 3
                 magic_distanced_numbers = safe_concatenate(magic_distanced_numbers_arrays)

@@ -43,23 +43,32 @@ def safe_concatenate(nested_arrays):
     
     return np.concatenate(valid_arrays)
 
+
 def clean_magic_results(master_dict):
     cleaned_dict = {}
     
     for col_name, results in master_dict.items():
-        cleaned_results = {}
-        if results["all_magic_numbers"] != False:
-            magic_results = results["all_magic_numbers"]
-
+        # 1. Check if all_magic_numbers has a valid value 
+        all_magic = results.get("all_magic_numbers")
+        
+        if all_magic is not None and all_magic is not False:
+            # If a primary magic number exists, use it
+            magic_results = all_magic
         else:
-            magic_strings_results = [val for val in results["magic_strings"] if val is not None and val != '']
-            delta_magic_numbers_results = [val for val in results["magic_distanced_numbers"] if val is not None]
-            sign_violation_results = [val for val in results["magic_sign_violation"] if val is not None]
+            # Combine secondary magic indicators
+            magic_strings = [val for val in results.get("magic_strings", []) if val not in [None, '']]
+            
+            # Handle potential numpy arrays in magic_distanced_numbers
+            distanced = results.get("magic_distanced_numbers", [])
+            distanced_list = distanced.tolist() if isinstance(distanced, np.ndarray) else distanced
+            
+            sign_violations = results.get("magic_sign_violation", [])
 
-            total_magic_numbers = np.concatenate([magic_strings_results , delta_magic_numbers_results, sign_violation_results]) 
-            unique_magic_numbers = np.unique(total_magic_numbers) if total_magic_numbers.size > 0 else np.array([])
+            # 3. Concatenate and find unique values
+            total_magic = np.concatenate([magic_strings, distanced_list, sign_violations]) 
+            unique_magic = np.unique(total_magic) if total_magic.size > 0 else np.array([])
 
-            magic_results = unique_magic_numbers.tolist()
+            magic_results = unique_magic.tolist()
     
         cleaned_dict[col_name] = magic_results
 
