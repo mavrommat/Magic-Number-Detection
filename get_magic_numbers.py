@@ -41,30 +41,21 @@ def get_magic_numbers_main(df, extended_col_info, sign_violation_theshold = 3,ga
         if (value_type == "N") and (array_length > 0): 
             print(f"Processing column: {col_name} with {array_length} entries.")
             data_arr, magic_strings = string_values_process(data_array) # Process 1 
-            print(f"  Found {len(magic_strings)} string-based magic numbers.")
             data_arr = data_arr[~np.isnan(data_arr) & (data_arr != '') & (data_arr != ' ')] # Clean the data array further
 
             all_magic_numbers = all_values_are_same(data_arr) # Process 4
             print(f"  All values identical: {all_magic_numbers}")
 
-            if  pd.api.types.is_float_dtype(all_magic_numbers) == True or pd.api.types.is_integer_dtype(all_magic_numbers) == True:
-                print(f"  Skipping further analysis for column {col_name} as all values are identical.")
-                results_dict = magic_dictionary(magic_strings, magic_sign_violation, magic_distanced_numbers, all_magic_numbers, col_name)
-                master_dict = add_to_master_dict(master_dict, results_dict)
-                continue
-
-            print(f"  Analyzing numerical magic numbers in column: {col_name}")
-            magic_sign_violation = opposite_sign_process(data_arr, sign_violation_theshold) # Process 2
-            print(f"  Found {len(magic_sign_violation)} sign-violation magic numbers.")
-            magic_distanced_numbers_arrays = delta_distributed_magic_numbers(data_arr, col_name, gauss_threshold,  overlap_threshold, plot_graphs) # Process 3
-            print(f"  Found {len(magic_distanced_numbers_arrays)} distance-based magic numbers arrays.")
-            magic_distanced_numbers = safe_concatenate(magic_distanced_numbers_arrays)
-            print(f"  Total distance-based magic numbers found: {len(magic_distanced_numbers)}")
-            plot_data_density(data_arr, col_name, plot_graphs)
+            if all_magic_numbers is not None:
+                magic_sign_violation = opposite_sign_process(data_arr, sign_violation_theshold) # Process 2
+                magic_distanced_numbers_arrays = delta_distributed_magic_numbers(data_arr, col_name, gauss_threshold,  overlap_threshold, plot_graphs) # Process 3
+                magic_distanced_numbers = safe_concatenate(magic_distanced_numbers_arrays)
+                plot_data_density(data_arr, col_name, plot_graphs)
+            else: print("  Skipping Processes 2 and 3 due to identical numeric values.")
 
             #print_magic_results(magic_strings, magic_sign_violation, magic_distanced_numbers, all_magic_numbers, col_name)
 
-            
+        
         results_dict = magic_dictionary(magic_strings, magic_sign_violation, magic_distanced_numbers, all_magic_numbers, col_name)
 
         master_dict = add_to_master_dict(master_dict, results_dict)
