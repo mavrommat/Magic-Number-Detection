@@ -199,30 +199,44 @@ def print_candidate_info(results):
         print(f"Is first value in sorted unique array: {'Yes' if info['is_first'] else 'No'}")
         print(f"Is last value in sorted unique array: {'Yes' if info['is_last'] else 'No'}")
         print("-" * 40)
-
-def overlap_non_extreme_values(results, data_arr, overlap_threshold, plot_graphs = True):
-    # Filter and sort data
-    filtered_data = [x for x in data_arr if x is not None and isinstance(x, (int, float))]
-    if not filtered_data:
+def overlap_non_extreme_values(results, data_arr, overlap_threshold, plot_graphs=True):
+    # Convert the data array to floats 
+    data_arr_clean = np.array([float(x) for x in data_arr if x is not None and isinstance(x, (int, float, np.number))])
+    if data_arr_clean.size == 0:
         return [], []
     
-    data_arr_sorted = sorted(filtered_data)
+    data_arr_sorted = np.sort(data_arr_clean)
+    from collections import Counter
     value_counts = Counter(data_arr_sorted)
     
     magic_non_extreme = []
     magic_extreme = []
 
-    for val in results:
+    # Safely unpack the dictionary
+    for val, info in results.items():
+        # Skip None keys that were identified in debug log
         if val is None:
             continue
-            
-        # extreme values 
-        if results[val]['is_first'] or results[val]['is_last']:
-            if results[val]['frequency'] > 1:
-                magic_extreme.append(val)
+
+        # Ensures the key 'val' is treated as a float to match data_arr_sorted
+        try:
+            numeric_val = float(val)
+        except (ValueError, TypeError):
             continue
-            
-        # non-extreme values
+
+        # Extract info with defaults to prevent KeyErrors
+        is_extreme = info.get('is_first', False) or info.get('is_last', False)
+        freq = info.get('frequency', 0)
+
+        # Handle Extreme Values immediately
+        if is_extreme:
+            if freq > 1:
+                if numeric_val not in magic_extreme:
+                    magic_extreme.append(numeric_val)
+                    #print(f" Extreme magic number added: {numeric_val}")
+            continue # Move to the next value in the dictionary
+
+        # Handles Non-extreme values
         if not (results[val]['is_first'] or results[val]['is_last']):
             indices = np.argwhere(np.isclose(data_arr_sorted, val)).flatten()
             if len(indices)==0:
@@ -324,12 +338,17 @@ def delta_distributed_magic_numbers(data_arr, col_name, gauss_threshold = 0.01, 
     symmetrical_seq_dist = symmetrical_sequential_distances(seq_dist)
 
     outlier_distances = distances_outliers_plot(symmetrical_seq_dist, col_name, gauss_threshold = 0.01, plot_graphs = plot_graphs)
+    #print(f"Outlier distances identified: {outlier_distances}")
 
     matched_values = matching_outlier_dist_with_array_values(outlier_distances, data_arr, seq_dist)
+    #print(f"Matched outlier values: {matched_values}")
 
     results = candidate_numbers_info(data_arr, matched_values, col_name)
 
     #print_candidate_info(results) # Visual Representation of the results.
+
+    #print(f"Type of keys in results: {type(list(results.keys())[0])}")
+    #print(f"Sample info for 99999: {results.get(99999) or results.get('99999')}")
     
     magic_non_extreme, magic_extreme = overlap_non_extreme_values(results, data_arr,  overlap_threshold=5.0, plot_graphs = plot_graphs)
     #print("Ok debug after overlap_non_extreme_values")

@@ -39,12 +39,12 @@ def get_magic_numbers_main(df, extended_col_info, sign_violation_theshold = 3,ga
         # This process may be inaccurate on small datasets. For optimal statistical reliability, adjust the array_length parameter
         array_length = len(data_array)
         if (value_type == "N") and (array_length > 0): 
-            print(f"Processing column: {col_name} with {array_length} entries.")
+            #print(f"Processing column: {col_name} with {array_length} entries.")
             data_arr, magic_strings = string_values_process(data_array) # Process 1 
             data_arr = data_arr[~np.isnan(data_arr) & (data_arr != '') & (data_arr != ' ')] # Clean the data array further
 
             all_magic_numbers = all_values_are_same(data_arr) # Process 4
-            print(f"  All values identical: {all_magic_numbers}")
+            #print(f"  All values identical: {all_magic_numbers}")
 
             if all_magic_numbers is None:
                 magic_sign_violation = opposite_sign_process(data_arr, sign_violation_theshold) # Process 2

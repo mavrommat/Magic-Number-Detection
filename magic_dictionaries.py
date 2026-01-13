@@ -53,7 +53,8 @@ def clean_magic_results(master_dict):
         
         if all_magic is not None and all_magic is not False:
             # If a primary magic number exists, use it
-            magic_results = all_magic
+            #magic_results = all_magic
+            continue
         else:
             # Combine secondary magic indicators
             magic_strings = [val for val in results.get("magic_strings", []) if val not in [None, '']]
