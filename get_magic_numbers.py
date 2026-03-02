@@ -75,11 +75,12 @@ class MagicNumberDetector:
 
         # Check if unique values are more than 20 to have reliable statistical analysis
         len_unique_values =  len(set(data_arr))
+        min_unique_values = 20
 
-        if len_unique_values <= 20:
+        if len_unique_values <= min_unique_values:
             sufficient_unique_vals = False
             magic_distanced_numbers = ["Cannot detect statistical Magic Numbers: Unique values < 20"]
-        elif len_unique_values > 20:
+        elif len_unique_values > min_unique_values:
             sufficient_unique_vals = True
 
         if (all_magic_numbers is None) and sufficient_unique_vals:
