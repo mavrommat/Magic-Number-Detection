@@ -48,7 +48,7 @@ def clean_magic_results(master_dict):
     cleaned_dict = {}
     
     for col_name, results in master_dict.items():
-        # 1. Check if all_magic_numbers has a valid value 
+        # Check if all_magic_numbers has a valid value 
         all_magic = results.get("all_magic_numbers")
         
         if all_magic is not None and all_magic is not False:
@@ -65,7 +65,7 @@ def clean_magic_results(master_dict):
             
             sign_violations = results.get("magic_sign_violation", [])
 
-            # 3. Concatenate and find unique values
+            # Concatenate and find unique values
             total_magic = np.concatenate([magic_strings, distanced_list, sign_violations]) 
             unique_magic = np.unique(total_magic) if total_magic.size > 0 else np.array([])
 
