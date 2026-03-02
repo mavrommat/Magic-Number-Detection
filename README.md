@@ -10,7 +10,7 @@ Magic Numbers are placeholder values (e.g., `999`, `-9999`, `1E+10`) artificiall
 
 ---
 
-## 🛠 The Detection Process
+## The Detection Process overview 
 
 The algorithm processes data through four distinct stages to ensure high precision and recall:
 
