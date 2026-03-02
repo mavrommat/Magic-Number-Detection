@@ -69,7 +69,7 @@ def distances_outliers_plot(values_dist, col_name, gauss_threshold = 0.01, plot_
 
         # Mark outliers with red dots
         outlier_heights = dist.pdf(outliers)  # Height for dots on PDF curve
-        plt.scatter(outliers, outlier_heights, color='#F18F01', s=50, 
+        plt.scatter(outliers, outlier_heights, color="#F10101", s=50, 
                 label='Outliers (≤1% prob)', zorder=5)
 
         # Professional labels and title
@@ -199,6 +199,7 @@ def print_candidate_info(results):
         print(f"Is first value in sorted unique array: {'Yes' if info['is_first'] else 'No'}")
         print(f"Is last value in sorted unique array: {'Yes' if info['is_last'] else 'No'}")
         print("-" * 40)
+        
 def overlap_non_extreme_values(results, data_arr, overlap_threshold, plot_graphs=True):
     # Convert the data array to floats 
     data_arr_clean = np.array([float(x) for x in data_arr if x is not None and isinstance(x, (int, float, np.number))])
