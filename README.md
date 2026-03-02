@@ -34,7 +34,7 @@ To balance precision and recall, the following values are recommended:
 | --- | --- | --- |
 | `sign_violation_threshold` | `3` | Maximum values that can violate the sign of the apparent distribution. |
 | `gauss_threshold` | `0.01` (1%) | Sensitivity of the PDF outlier detection (percentage of peak density). |
-| `overlap_threshold` | `1.0` to `5.0` | The % of KDE overlap allowed before a number is dismissed as "normal". |
+| `overlap_threshold` | `0.1` to `1.0` (0.1%-1.0%) | The % of KDE overlap allowed before the numbers are dismissed as "normal". |
 | `min_unique_values` | `20` | Threshold for statistical validity. If unique values < 20, detection is skipped to avoid false positives. |
 
 ---
