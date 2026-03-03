@@ -120,7 +120,7 @@ class MagicNumberDetector:
             if self.plot_graphs:
                 plot_data_density(data_arr, col_name, self.plot_graphs)
         else:
-            self.logger.debug(f"Skipping P2 and P3 for {col_name} due to identical values.")
+            self.logger.debug(f"Skipping P2 and P3 for Column: {col_name} due to identical values.")
 
         return magic_dictionary(
             magic_strings, magic_sign_violation, magic_distanced_numbers, all_magic_numbers, col_name
